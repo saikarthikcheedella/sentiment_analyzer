@@ -1,0 +1,11 @@
+# Dockerfile
+FROM redis:latest
+
+# Copy custom configuration
+COPY docker/redis.conf /usr/local/etc/redis/redis.conf
+
+# Expose the Redis default port
+EXPOSE 6379
+
+# Command to start Redis with custom configuration
+CMD ["redis-server", "/usr/local/etc/redis/redis.conf"]

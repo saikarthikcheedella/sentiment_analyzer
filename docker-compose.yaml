@@ -1,0 +1,38 @@
+services:
+  sentiment-analyzer-app:
+    #image: sentiment-analyzer:latest
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile
+    ports: 
+      - 5001:5001
+    environment:
+      - LOG_LEVEL=DEBUG
+      - REDIS_HOST=redis-cache
+    depends_on:
+      - redis-cache
+      - postgres-db
+
+  redis-cache:
+    image: redis-cache:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile_redis
+    ports:
+      - 6379:6379
+
+  postgres-db:
+    image: postgres:latest
+    build: .
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_HOST=postgres-db
+      - POSTGRES_PORT=5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<h1 align="center">Movie review classifier</h1>
+
+<form align="left" method="get">
+  <button type="submit" action="/login_page">login/signup</button>
+  <button type="submit" action="/logout">logout</button>
+</form>
+
+<form>
+  <p> Welcome to Movie review classifier.<br>
+  This classifier is trained on IMDB data set (20k records).<br>
+  Logistic Regression is used to train this classifier
+  </p>
+</form>
+
+<br>
+
+<form id="train-form" method="POST" action="/train">
+    <button type="submit">Train</button>
+</form>
+<p id="training-status">{{ training_status }}</p>
+<br>
+
+
+<form action="/infer">
+    <label for="query">Enter Query:</label>
+    <input type="text" id="query" name="query" placeholder="Enter your query here...">
+    <br>
+    <input type="hidden" name="token" value="{{ token }}">
+    <button type="submit">Infer</button>
+</form>
+<p id="inference_response">{{inference_response}}</p>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const trainingStatus = document.getElementById('training-status');
+        const trainForm = document.getElementById('train-form');
+        trainForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Send an AJAX request to the /train route with the token in the request body
+            fetch('/train', {
+                method: 'POST',
+                headers: {
+                    'Authorization': '{{ token }}'
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the training status on the page
+                trainingStatus.textContent = data.status;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>

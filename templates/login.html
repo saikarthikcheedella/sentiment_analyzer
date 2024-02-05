@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration and Login</title>
+</head>
+<body>
+    <h2>Register</h2>
+    <form id="registrationForm" onsubmit="return validateRegistration()">
+        <input type="text" name="regUsername" placeholder="Username"><br>
+        <input type="password" name="regPassword" placeholder="Password"><br>
+        <input type="password" name="regConfirmPassword" placeholder="Confirm Password"><br>
+        <input type="submit" formaction="/register" value="Register">
+    </form>
+
+    <h2>Login</h2>
+    <form id="loginForm" onsubmit="return validateLogin()">
+        <input type="text" name="loginUsername" placeholder="Username"><br>
+        <input type="password" name="loginPassword" placeholder="Password"><br>
+        <button type="submit" formaction="/login" >Login</button>
+    </form>
+
+    <script>
+        function validateRegistration() {
+            var username = document.getElementsByName("regUsername")[0].value;
+            var password = document.getElementsByName("regPassword")[0].value;
+            var confirmPassword = document.getElementsByName("regConfirmPassword")[0].value;
+
+            if (username === "" || password === "" || confirmPassword === "") {
+                alert("All fields are required.");
+                return false;
+            }
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+            // Additional validation checks can be added here
+            return true;
+        }
+
+        function validateLogin() {
+            var username = document.getElementsByName("loginUsername")[0].value;
+            var password = document.getElementsByName("loginPassword")[0].value;
+
+            if (username === "" || password === "") {
+                alert("Both username and password are required.");
+                return false;
+            }
+
+            // Additional validation checks can be added here
+
+            return true;
+        }
+    </script>
+</body>
+</html>
